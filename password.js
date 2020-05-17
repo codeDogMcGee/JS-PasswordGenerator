@@ -75,6 +75,7 @@ function generatePassword() {
 function copyToClipboard(element) {
     var range, selection, worked;
 
+    // select button text (password)
     if (document.body.createTextRange) {
       range = document.body.createTextRange();
       range.moveToElementText(element);
@@ -88,19 +89,31 @@ function copyToClipboard(element) {
     }
     
     try {
-      document.execCommand('copy');
-      document.getElementById("copied-password").innerHTML = "Password copied to clipboard!";
+        // copy selection to clipboard
+        document.execCommand('copy');
+
+        // set password copied message
+        document.getElementById("copied-password").innerHTML = "Password copied to clipboard!";
+
+        // reset copied password message after 5 secs
+        setTimeout(function() {
+            document.getElementById("copied-password").innerHTML = ""
+        }, 5000 );
+
     }
+    
     catch (err) {
         console.log(err)
+        // let user know password was not copied to clipboard
         document.getElementById("copied-password").innerHTML = "Unable to copy password.";
     }
 }
 
-// update slider output
+// get slider and slider output elements
 let sliderValueHtml = document.getElementById("slider");
-
 let sliderOutputHtml = document.getElementById("sliderOutput");
+
+// set slider output to new slider value when the input changes
 sliderOutputHtml.innerHTML = sliderValueHtml.value;
 sliderValueHtml.oninput = () => {
     sliderOutputHtml.innerHTML = sliderValueHtml.value;
